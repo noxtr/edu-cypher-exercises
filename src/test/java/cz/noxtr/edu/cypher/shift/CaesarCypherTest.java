@@ -3,7 +3,6 @@ package cz.noxtr.edu.cypher.shift;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -23,12 +22,19 @@ class CaesarCypherTest {
     })
     @ParameterizedTest
     void encode(String plainText, String expectedCypher) {
-        String cypher = caesarCypher.encode(plainText, "3");
+        String cypher = caesarCypher.encode(plainText, SHIFT_COUNT.toString());
         assertThat(cypher)
                 .isEqualTo(expectedCypher);
     }
 
-    @Test
-    void decode() {
+    @CsvSource({
+            "DVA,ASX",
+            "EWB,BTY"
+    })
+    @ParameterizedTest
+    void decode(String cypherText, String expectedPlainText) {
+        String cypher = caesarCypher.decode(cypherText, SHIFT_COUNT.toString());
+        assertThat(cypher)
+                .isEqualTo(expectedPlainText);
     }
 }
